@@ -31,6 +31,13 @@
             <IonTitle>Event Finder</IonTitle>
         </IonToolbar>
     </IonHeader>
+
+    <p>Click the button to get your coordinates.</p>
+
+    <button onclick="getLocation()">Try It</button>
+
+    <p id="demo"></p>
+
     <ion-grid>
         <ion-row>
             <ion-col size=12>
@@ -143,6 +150,22 @@
     crossorigin="anonymous"></script>
 <script src="script.js"></script>
 <script>
+
+    //Module to get device location
+    var userLocation  = document.getElementById('demo');
+    
+    function getLocation() {
+        if (navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            userLocation.innerHTML = 'Geolocation is not supported by this browser.'
+        }
+    }
+
+    function showPosition(position) {
+        userLocation.innerHTML = "Latitude: " +position.coords.latitude +
+        "<br>Longitude: " + position.coords.longitude;
+    }
     // Initialize and add the map
     function initMap() {
         // The location of Uluru
@@ -153,6 +176,11 @@
         // The marker, positioned at Uluru
         var marker = new google.maps.Marker({ position: uluru, map: map });
     }
+
+    //Trying the ticketmaster api
+    var apikey = 'RFICjUjeerutWCLOjlYKQaGawIvVOZ6R';
+
+
 </script>
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDiugKjG94eAImcOFEyq0IKhzPj4rrjKro&callback=initMap"
