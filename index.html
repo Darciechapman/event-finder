@@ -17,6 +17,19 @@
     <ion-toolbar>
         <ion-title>Event Finder</ion-title>
     </ion-toolbar>
+    <IonHeader>
+        <IonToolbar>
+
+            <IonTitle>Event Finder</IonTitle>
+        </IonToolbar>
+    </IonHeader>
+
+    <p>Click the button to get your coordinates.</p>
+
+    <button onclick="getLocation()">Try It</button>
+
+    <p id="demo"></p>
+
     <ion-grid>
         <ion-row>
             <ion-col size="12">
@@ -113,6 +126,42 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
 <script src="script.js"></script>
+<<<<<<< HEAD
+=======
+<script>
+
+    //Module to get device location
+    var userLocation  = document.getElementById('demo');
+    
+    function getLocation() {
+        if (navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            userLocation.innerHTML = 'Geolocation is not supported by this browser.'
+        }
+    }
+
+    function showPosition(position) {
+        userLocation.innerHTML = "Latitude: " +position.coords.latitude +
+        "<br>Longitude: " + position.coords.longitude;
+    }
+    // Initialize and add the map
+    function initMap() {
+        // The location of Uluru
+        var uluru = { lat: -25.344, lng: 131.036 };
+        // The map, centered at Uluru
+        var map = new google.maps.Map(
+            document.getElementById('map'), { zoom: 4, center: uluru });
+        // The marker, positioned at Uluru
+        var marker = new google.maps.Marker({ position: uluru, map: map });
+    }
+
+    //Trying the ticketmaster api
+    var apikey = 'RFICjUjeerutWCLOjlYKQaGawIvVOZ6R';
+
+
+</script>
+>>>>>>> c914ca6ede66a2d26cfb1e5876c757179da2983a
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDiugKjG94eAImcOFEyq0IKhzPj4rrjKro&callback=initMap"
     type="text/javascript"></script>
