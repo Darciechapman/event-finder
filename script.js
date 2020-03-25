@@ -24,6 +24,10 @@ function getLocation() {
 function showPosition(position) {
     userLocation.innerHTML = "Latitude: " +position.coords.latitude +
     "<br>Longitude: " + position.coords.longitude;
+    console.log("Latitude: " + position.coords.latitude);
+    console.log("Longitude: " + position.coords.longitude);
+    var lat = position.coords.latitude;
+    var long = position.coords.latitude;
     }
     
 //Trying the ticketmaster api

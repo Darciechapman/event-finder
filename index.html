@@ -12,111 +12,114 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 
-<body>
+<ion-app>
     <!--Page Header-->
-    <ion-toolbar>
-        <ion-title>Event Finder</ion-title>
-        <ion-buttons slot="primary">
-            <ion-button onclick="getLocation()" fill="solid" color="secondary">
-                Get my Location
-                <ion-icon slot="end" name="help-circle"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-    </ion-toolbar>
-    <ion-grid>
-        <ion-row>
-            <ion-col size="12">
-                <ion-card>
-                    <!--Card which contains search parameters-->
-                    <ion-row>
-                        <ion-searchbar animated placeholder="Search for events near you"></ion-searchbar>
-                    </ion-row>
-                    <ion-row>
-                        <ion-col size="6">
+    <ion-header>
+        <ion-toolbar>
+            <ion-title>Event Finder</ion-title>
+            <ion-buttons slot="primary">
+                <ion-button onclick="getLocation()" fill="solid" color="secondary">
+                    Get my Location
+                    <ion-icon slot="end" name="help-circle"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-grid>
+            <ion-row>
+                <ion-col size="12">
+                    <ion-card>
+                        <!--Card which contains search parameters-->
+                        <ion-row>
+                            <ion-searchbar animated placeholder="Search for events near you"></ion-searchbar>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col size="6">
+                                <ion-list>
+                                    <!--List of checkbox options-->
+                                    <ion-item>
+                                        <ion-label>Concerts</ion-label>
+                                        <ion-checkbox slot="end" value="Concerts"></ion-checkbox>
+                                    </ion-item>
+
+                                    <ion-item>
+                                        <ion-label>Sports</ion-label>
+                                        <ion-checkbox slot="end" value="Sports"></ion-checkbox>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-label>Social</ion-label>
+                                        <ion-checkbox slot="end" value="Social"></ion-checkbox>
+                                    </ion-item>
+                                </ion-list>
+                            </ion-col>
+                            <ion-col size="6">
+                                <ion-list>
+                                    <ion-item>
+                                        <ion-label>Cultural</ion-label>
+                                        <ion-checkbox slot="end" value="Concerts"></ion-checkbox>
+                                    </ion-item>
+
+                                    <ion-item>
+                                        <ion-label>Food</ion-label>
+                                        <ion-checkbox slot="end" value="Sports"></ion-checkbox>
+                                    </ion-item>
+
+                                    <ion-item>
+                                        <ion-label>Other</ion-label>
+                                        <ion-checkbox slot="end" value="Social"></ion-checkbox>
+                                    </ion-item>
+                                </ion-list>
+                        </ion-row>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="12" size-sm>
+                    <!--Area to contain Map and List Details-->
+                    <ion-card>
+                        <ion-card-content id=content>
+                            Map
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+                <ion-col>
+                    <ion-card size="12" size-sm>
+                        <ion-card-header>
+                            <!--Area that contains list of nearby events-->
+                            <ion-card-title>Search Results</ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content>
                             <ion-list>
-                                <!--List of checkbox options-->
-                                <ion-item>
-                                    <ion-label>Concerts</ion-label>
-                                    <ion-checkbox slot="end" value="Concerts"></ion-checkbox>
-                                </ion-item>
-
-                                <ion-item>
-                                    <ion-label>Sports</ion-label>
-                                    <ion-checkbox slot="end" value="Sports"></ion-checkbox>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-label>Social</ion-label>
-                                    <ion-checkbox slot="end" value="Social"></ion-checkbox>
-                                </ion-item>
+                                <ion-item-sliding>
+                                    <ion-item button onclick="buttonClick()">
+                                        <ion-label>
+                                            Search result
+                                        </ion-label>
+                                    </ion-item>
+                                    <ion-item-options side="end">
+                                        <ion-item-option onClick="unread(item)">Unread</ion-item-option>
+                                    </ion-item-options>
+                                </ion-item-sliding>
+                                <ion-item-sliding>
+                                    <ion-item button onclick="buttonClick()">
+                                        <ion-label>
+                                            Search result
+                                        </ion-label>
+                                    </ion-item>
+                                    <ion-item-options side="end">
+                                        <ion-item-option onClick="unread(item)">Unread</ion-item-option>
+                                    </ion-item-options>
+                                </ion-item-sliding>
                             </ion-list>
-                        </ion-col>
-                        <ion-col size="6">
-                            <ion-list>
-                                <ion-item>
-                                    <ion-label>Cultural</ion-label>
-                                    <ion-checkbox slot="end" value="Concerts"></ion-checkbox>
-                                </ion-item>
-
-                                <ion-item>
-                                    <ion-label>Food</ion-label>
-                                    <ion-checkbox slot="end" value="Sports"></ion-checkbox>
-                                </ion-item>
-
-                                <ion-item>
-                                    <ion-label>Other</ion-label>
-                                    <ion-checkbox slot="end" value="Social"></ion-checkbox>
-                                </ion-item>
-                            </ion-list>
-                    </ion-row>
-                </ion-card>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col size="12" size-sm>
-                <!--Area to contain Map and List Details-->
-                <ion-card>
-                    <ion-card-content id=content>
-                        Map
-                    </ion-card-content>
-                </ion-card>
-            </ion-col>
-            <ion-col>
-                <ion-card size="12" size-sm>
-                    <ion-card-header>
-                        <ion-card-title>Search Results</ion-card-title>
-                    </ion-card-header>
-
-                    <ion-card-content>
-                        <ion-list>
-                            <ion-item-sliding>
-                                <ion-item button onclick="buttonClick()">
-                                    <ion-label>
-                                        Search result
-                                    </ion-label>
-                                </ion-item>
-                                <ion-item-options side="end">
-                                    <ion-item-option onClick="unread(item)">Unread</ion-item-option>
-                                </ion-item-options>
-                            </ion-item-sliding>
-
-                            <ion-item-sliding>
-                                <ion-item button onclick="buttonClick()">
-                                    <ion-label>
-                                        Search result
-                                    </ion-label>
-                                </ion-item>
-                                <ion-item-options side="end">
-                                    <ion-item-option onClick="unread(item)">Unread</ion-item-option>
-                                </ion-item-options>
-                            </ion-item-sliding>
-                        </ion-list>
-                    </ion-card-content>
-                </ion-card>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-content>
     <ion-footer id="location"></ion-footer>
-</body>
+</ion-app>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
 <script src="script.js"></script>
