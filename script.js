@@ -1,33 +1,42 @@
 
 // Initialize and add the map
-function initMap() {
-    // The location of Uluru
-    var uluru = { lat: -25.344, lng: 131.036 };
-    // The map, centered at Uluru
-    var map = new google.maps.Map(
-        document.getElementById('content'), { zoom: 4, center: uluru });
-    // The marker, positioned at Uluru
-    var marker = new google.maps.Marker({ position: uluru, map: map });
-}
+var map, infoWindow;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('content'), {
+          center: {lat: -32.000, lng: 116.000},
+          zoom: 6
+        });
+        infoWindow = new google.maps.InfoWindow;
 
-//Module to get device location
-var userLocation  = document.getElementById('location');
-    
-function getLocation() {
-    if (navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        console.log("Geolocation is not supported by this browser.");
-    }
-}
-getLocation();
-    
-function showPosition(position) {
-    console.log("Latitude: " + position.coords.latitude);
-    console.log("Longitude: " + position.coords.longitude);
-    var lat = position.coords.latitude;
-    var long = position.coords.latitude;
-    }
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('You are here');
+            infoWindow.open(map);
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+      }
+
     
 //Trying the ticketmaster api
 var apikey = 'RFICjUjeerutWCLOjlYKQaGawIvVOZ6R';
