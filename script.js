@@ -17,13 +17,12 @@ function getLocation() {
     if (navigator.geolocation){
         navigator.geolocation.getCurrentPosition(showPosition);
     } else {
-        userLocation.innerHTML = 'Geolocation is not supported by this browser.'
+        console.log("Geolocation is not supported by this browser.");
     }
 }
+getLocation();
     
 function showPosition(position) {
-    userLocation.innerHTML = "Latitude: " +position.coords.latitude +
-    "<br>Longitude: " + position.coords.longitude;
     console.log("Latitude: " + position.coords.latitude);
     console.log("Longitude: " + position.coords.longitude);
     var lat = position.coords.latitude;
@@ -43,7 +42,7 @@ let currentPopover = null;
 
     async function handleButtonClick(ev) {
       popover = await popoverController.create({
-        component: 'popover-example-page',
+        component: 'options-popover',
         event: ev,
         translucent: true
       });
@@ -57,7 +56,7 @@ let currentPopover = null;
       }
     }
 
-    customElements.define('popover-example-page', class ModalContent extends HTMLElement {
+    customElements.define('options-popover', class ModalContent extends HTMLElement {
       connectedCallback() {
         this.innerHTML = `
         <ion-list>
