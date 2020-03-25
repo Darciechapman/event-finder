@@ -32,3 +32,66 @@ function showPosition(position) {
     
 //Trying the ticketmaster api
 var apikey = 'RFICjUjeerutWCLOjlYKQaGawIvVOZ6R';
+
+//Script for options popover
+let currentPopover = null;
+
+    const buttons = document.querySelectorAll('ion-button');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', handleButtonClick);
+    }
+
+    async function handleButtonClick(ev) {
+      popover = await popoverController.create({
+        component: 'popover-example-page',
+        event: ev,
+        translucent: true
+      });
+      currentPopover = popover;
+      return popover.present();
+    }
+
+    function dismissPopover() {
+      if (currentPopover) {
+        currentPopover.dismiss().then(() => { currentPopover = null; });
+      }
+    }
+
+    customElements.define('popover-example-page', class ModalContent extends HTMLElement {
+      connectedCallback() {
+        this.innerHTML = `
+        <ion-list>
+        <!--List of checkbox options-->
+        <ion-item>
+            <ion-label>Concerts</ion-label>
+            <ion-checkbox slot="end" value="Concerts"></ion-checkbox>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Sports</ion-label>
+            <ion-checkbox slot="end" value="Sports"></ion-checkbox>
+        </ion-item>
+        
+        <ion-item>
+            <ion-label>Social</ion-label>
+            <ion-checkbox slot="end" value="Social"></ion-checkbox>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Cultural</ion-label>
+            <ion-checkbox slot="end" value="Concerts"></ion-checkbox>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Food</ion-label>
+            <ion-checkbox slot="end" value="Sports"></ion-checkbox>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Other</ion-label>
+            <ion-checkbox slot="end" value="Social"></ion-checkbox>
+        </ion-item>
+    </ion-list>
+        `;
+      }
+    });
