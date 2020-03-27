@@ -114,7 +114,7 @@ let currentPopover = null;
             var slidingItem = $("<ion-item-sliding>")
     
             var eventListBtn = $("<ion-item>")
-            eventListBtn.attr("button")
+            eventListBtn.prop("button", true)
     
             var tittleId = $("<ion-label>").text("tittle")
     
