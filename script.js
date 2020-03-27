@@ -38,11 +38,11 @@ var eventMarkers = [
 ];
 console.log(eventMarkers);
 // Function to place event location markers on map
-function setMarkers(map){
-    for (var i = 0; i < eventMarkers.length; i++){
+function setMarkers(map) {
+    for (var i = 0; i < eventMarkers.length; i++) {
         var eventMarker = eventMarkers[i];
         var marker = new google.maps.Marker({
-            position: {lat: eventMarker[1], lng: eventMarker[2]},
+            position: { lat: eventMarker[1], lng: eventMarker[2] },
             map: map,
             title: eventMarker[0]
         });
@@ -122,3 +122,46 @@ customElements.define('options-popover', class ModalContent extends HTMLElement 
         `;
     }
 });
+
+
+var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&locale=*&countryCode=AU"
+
+$.ajax({
+    url: "https://api.predicthq.com/v1/events",
+    method: "GET",
+    headers: {
+        "Authorization": "Bearer 8MPM-fRGm2TrnfU5r0NFzrjT_xmxGhxAmeALzUP-",
+        "Accept": "application/json"
+    }
+}).then(function (response) {
+    console.log(response);
+
+    eventList();
+
+    //create button list function
+    function eventList() {
+
+        //for (let i = 0; i < event.length; i++) {
+        //    const element = event[i];
+
+        var slidingItem = $("<ion-item-sliding>")
+
+        var eventListBtn = $("<ion-item>")
+        eventListBtn.prop("button", true)
+
+        var tittleId = $("<ion-label>").text("tittle")
+
+        var itemOptions = $("<ion-item-options>")
+
+        slidingItem.append(eventListBtn)
+        eventListBtn.append(tittleId)
+        slidingItem.append(itemOptions)
+
+
+        $(".resultsList").append(slidingItem)
+
+        //}
+
+    }
+
+})
