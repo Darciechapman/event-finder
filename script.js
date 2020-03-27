@@ -103,3 +103,33 @@ let currentPopover = null;
         `;
       }
     });
+
+    eventList();
+
+    function eventList() {
+    
+        //for (let i = 0; i < event.length; i++) {
+        //    const element = event[i];
+            
+            var slidingItem = $("<ion-item-sliding>")
+    
+            var eventListBtn = $("<ion-item>")
+            eventListBtn.attr("button")
+    
+            var tittleId = $("<ion-label>").text("tittle")
+    
+            var itemOptions = $("<ion-item-options>")
+            
+    
+            //var itemOption = $('<onClick="unread(item)">')
+    
+            slidingItem.append(eventListBtn)
+            eventListBtn.append(tittleId)
+            slidingItem.append(itemOptions)
+            //itemOptions.append(itemOption)
+    
+            $(".resultsList").append(slidingItem)
+    
+        //}
+        
+    } 
