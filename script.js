@@ -60,7 +60,6 @@ customElements.define('options-popover', class ModalContent extends HTMLElement 
     </ion-list>
         `;
     }
-    if("<ion-checkbox>")
 });
 // Initialize and add the map
 var map, infoWindow;
