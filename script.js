@@ -1,65 +1,5 @@
-
-// Initialize and add the map
-var map, infoWindow;
-function initMap() {
-    map = new google.maps.Map(document.getElementById('content'), {
-        center: { lat: -32.000, lng: 115.800 },
-        zoom: 10
-    });
-    infoWindow = new google.maps.InfoWindow;
-
-    // Try HTML5 geolocation.
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            console.log(position.coords.latitude);
-            console.log(position.coords.longitude);
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('You are here');
-            infoWindow.open(map);
-            map.setCenter(pos);
-        }, function () {
-            handleLocationError(true, infoWindow, map.getCenter());
-        });
-    } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
-    }
-    setMarkers(map);
-}
-// Array to hold event coordinates
-var eventMarkers = [
-    ['event name1', -31.523, 115.456],
-    ['event name2', -31.727, 115.856],
-    ['event name3', -31.783, 115.806]
-];
-console.log(eventMarkers);
-// Function to place event location markers on map
-function setMarkers(map) {
-    for (var i = 0; i < eventMarkers.length; i++) {
-        var eventMarker = eventMarkers[i];
-        var marker = new google.maps.Marker({
-            position: { lat: eventMarker[1], lng: eventMarker[2] },
-            map: map,
-            title: eventMarker[0]
-        });
-    }
-}
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-        'Error: The Geolocation service failed.' :
-        'Error: Your browser doesn\'t support geolocation.');
-    infoWindow.open(map);
-}
-
-
-// Trying the ticketmaster api
 var apikey = 'RFICjUjeerutWCLOjlYKQaGawIvVOZ6R';
-
+var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&locale=*&countryCode=AU&city=Perth&radius=100&unit=km"
 // Generate options popover
 let currentPopover = null;
 
@@ -122,42 +62,117 @@ customElements.define('options-popover', class ModalContent extends HTMLElement 
         `;
     }
 });
+// Initialize and add the map
+var map, infoWindow;
+function initMap() {
+    map = new google.maps.Map(document.getElementById('content'), {
+        center: { lat: -32.000, lng: 115.800 },
+        zoom: 10
+    });
+    infoWindow = new google.maps.InfoWindow;
+
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            console.log(position.coords.latitude);
+            console.log(position.coords.longitude);
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('You are here');
+            infoWindow.open(map);
+            map.setCenter(pos);
+        }, function () {
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+    }
+    setMarkers(map);
+}
+
+console.log(eventMarkers);
+// Function to place event location markers on map
+function setMarkers(map) {
+    for (var i = 0; i < eventMarkers.length; i++) {
+        var eventMarker = eventMarkers[i];
+        var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(eventMarker.lat, eventMarker.lng),
+                type: 'info',
+            map: map,
+            title: eventMarker.title
+        });
+    }
+}
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ?
+        'Error: The Geolocation service failed.' :
+        'Error: Your browser doesn\'t support geolocation.');
+    infoWindow.open(map);
+}
 
 
-var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&locale=*&countryCode=AU"
+// Trying the ticketmaster api
 
+// Array to hold event coordinates
+var eventMarkers = [
+];
 $.ajax({
-url: queryURL,
-method: "GET", 
-}).then(function(response) {
+    url: queryURL,
+    method: "GET",
+}).then(function (response) {
+    var events = response._embedded.events;
     console.log(response);
-      
-eventList();
+    for (var i = 0; i < events.length; i++) {
+        var eventName = events[i].name;
+        var eventVenue = events[i]._embedded.venues[0].name;
+        var eventLng = events[i]._embedded.venues[0].location.longitude;
+        var eventLat = events[i]._embedded.venues[0].location.latitude;
+        if (eventLng === undefined || eventLat === undefined) {
+            return;
+        }
+        var marker = {
+            lat: eventLat,
+            lng: eventLng,
+            title: eventName
 
-//create button list function
-  function eventList() {
-    
-    //for (let i = 0; i < event.length; i++) {
-    //    const element = event[i];
-            
-    var slidingItem = $("<ion-item-sliding>")
-    
-    var eventListBtn = $("<ion-item>")
-    eventListBtn.prop("button", true)
-            
-    var tittleId = $("<ion-label>").text("tittle")
-    
-    var itemOptions = $("<ion-item-options>")
-    
-    slidingItem.append(eventListBtn)
-    eventListBtn.append(tittleId)
-    slidingItem.append(itemOptions)
-            
-    
-    $(".resultsList").append(slidingItem)
-    
-  //}
-        
-  }
-        
+        }
+
+        eventMarkers.push(marker);
+        console.log(eventName);
+        console.log(eventVenue);
+        console.log(eventLng);
+        console.log(eventLat);
+        console.log("_______________________________________");
+    }
+setMarkers(map);
+    eventList();
+
+    //create button list function
+    function eventList() {
+
+        //for (let i = 0; i < event.length; i++) {
+        //    const element = event[i];
+
+        var slidingItem = $("<ion-item-sliding>")
+
+        var eventListBtn = $("<ion-item>")
+        eventListBtn.prop("button", true)
+
+        var tittleId = $("<ion-label>").text("tittle")
+
+        var itemOptions = $("<ion-item-options>")
+
+        slidingItem.append(eventListBtn)
+        eventListBtn.append(tittleId)
+        slidingItem.append(itemOptions)
+
+
+        $(".resultsList").append(slidingItem)
+    }
+
 })
