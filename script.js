@@ -60,6 +60,7 @@ customElements.define('options-popover', class ModalContent extends HTMLElement 
     </ion-list>
         `;
     }
+    if("<ion-checkbox>")
 });
 // Initialize and add the map
 var map, infoWindow;
@@ -93,6 +94,8 @@ function initMap() {
     setMarkers(map);
 }
 
+
+ 
 console.log(eventMarkers);
 // Function to place event location markers on map
 function setMarkers(map) {
@@ -118,8 +121,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 // Ticketmaster api url
 var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&locale=*&countryCode=AU&stateCode=WA&size=100"
 // Array to hold event coordinates
-var eventMarkers = [
-];
+var eventMarkers = [];
 $.ajax({
     url: queryURL,
     method: "GET",
@@ -140,10 +142,19 @@ $.ajax({
             lng: eventLng,
             title: eventName,
             venue: eventVenue
-
-        }
-        
+        }    
         eventMarkers.push(marker);
+        var slidingItem = $("<ion-item-sliding>");
+        var eventListBtn = $("<ion-item>");
+        eventListBtn.prop("button", true);   
+        var tittleId = $("<ion-label>").text(eventName);
+        var itemOptions = $("<ion-item-options>");
+        slidingItem.append(eventListBtn)
+        eventListBtn.append(tittleId)
+        slidingItem.append(itemOptions)
+        $(".resultsList").append(slidingItem)
+        
+        
         console.log(eventName);
         console.log(eventVenue);
         console.log(eventLng);
@@ -151,29 +162,7 @@ $.ajax({
         console.log("_______________________________________");
     }
     setMarkers(map);
-    eventList();
+ 
 
-    //create button list function
-    function eventList() {
-
-        //for (let i = 0; i < event.length; i++) {
-        //    const element = event[i];
-
-        var slidingItem = $("<ion-item-sliding>")
-
-        var eventListBtn = $("<ion-item>")
-        eventListBtn.prop("button", true)
-
-        var tittleId = $("<ion-label>").text("tittle")
-
-        var itemOptions = $("<ion-item-options>")
-
-        slidingItem.append(eventListBtn)
-        eventListBtn.append(tittleId)
-        slidingItem.append(itemOptions)
-
-
-        $(".resultsList").append(slidingItem)
-    }
 
 })
