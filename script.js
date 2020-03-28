@@ -156,10 +156,10 @@ function setMarkers(map) {
     for (var i = 0; i < eventMarkers.length; i++) {
         var eventMarker = eventMarkers[i];
         var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(eventMarker.lat, eventMarker.lng),
-                type: 'info',
+            position: new google.maps.LatLng(eventMarker.lat, eventMarker.lng),
+            type: 'info',
             map: map,
-            title: eventMarker.title
+            title: eventMarker.title,
         });
     }
 }
@@ -172,11 +172,10 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 
-// Trying the ticketmaster api
-
+// Ticketmaster api url
+var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&locale=*&countryCode=AU&stateCode=WA&size=100"
 // Array to hold event coordinates
-var eventMarkers = [
-];
+var eventMarkers = [];
 $.ajax({
     url: queryURL,
     method: "GET",
@@ -191,20 +190,33 @@ $.ajax({
         if (eventLng === undefined || eventLat === undefined) {
             return;
         }
+        // Object that contains location information of events
         var marker = {
             lat: eventLat,
             lng: eventLng,
-            title: eventName
-
-        }
-
+            title: eventName,
+            venue: eventVenue
+        }    
         eventMarkers.push(marker);
+        var slidingItem = $("<ion-item-sliding>");
+        var eventListBtn = $("<ion-item>");
+        eventListBtn.prop("button", true);   
+        var tittleId = $("<ion-label>").text(eventName);
+        var itemOptions = $("<ion-item-options>");
+        slidingItem.append(eventListBtn)
+        eventListBtn.append(tittleId)
+        slidingItem.append(itemOptions)
+        $(".resultsList").append(slidingItem)
+        
+        
         console.log(eventName);
         console.log(eventVenue);
         console.log(eventLng);
         console.log(eventLat);
         console.log("_______________________________________");
     }
-setMarkers(map);
+    setMarkers(map);
+ 
+
 
 })
