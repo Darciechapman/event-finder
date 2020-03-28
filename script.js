@@ -124,40 +124,50 @@ customElements.define('options-popover', class ModalContent extends HTMLElement 
 });
 
 
-var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&locale=*&countryCode=AU"
+for (let i = 1; i <= 13; i++) {
+    
+    var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&locale=*&countryCode=AU&size=200&page=" + i //&page=1
 
-$.ajax({
-url: queryURL,
-method: "GET", 
-}).then(function(response) {
-    console.log(response);
-      
-eventList();
+    //call ajax with queryURL
+    //display data
+    $.ajax({
+        url: queryURL,
+        method: "GET", 
+    }).then(function(response) {
+  
+        console.log(response);
+
+        //location = response._embedded.events[i]._embedded.venues[0].location
+        
+        eventList(response);
+    })
+}
 
 //create button list function
-  function eventList() {
+function eventList(response) {
     
     //for (let i = 0; i < event.length; i++) {
     //    const element = event[i];
+
+        var eventTittle = response._embedded.events[0].name
             
-    var slidingItem = $("<ion-item-sliding>")
+        var slidingItem = $("<ion-item-sliding>")
     
-    var eventListBtn = $("<ion-item>")
-    eventListBtn.prop("button", true)
+        var eventListBtn = $("<ion-item>")
+        eventListBtn.prop("button", true)
             
-    var tittleId = $("<ion-label>").text("tittle")
+        var tittleId = $("<ion-label>").text(eventTittle)
     
-    var itemOptions = $("<ion-item-options>")
+        var itemOptions = $("<ion-item-options>")
     
-    slidingItem.append(eventListBtn)
-    eventListBtn.append(tittleId)
-    slidingItem.append(itemOptions)
+        slidingItem.append(eventListBtn)
+        eventListBtn.append(tittleId)
+        slidingItem.append(itemOptions)
             
     
-    $(".resultsList").append(slidingItem)
+        $(".resultsList").append(slidingItem)
     
-  //}
+    //}
         
-  }
+    }
         
-})
