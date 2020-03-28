@@ -1,5 +1,5 @@
 var apikey = 'RFICjUjeerutWCLOjlYKQaGawIvVOZ6R';
-var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&locale=*&countryCode=AU&city=Perth&radius=100&unit=km"
+var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&latlng=-" + currentLat + currentLong + "&radius=100&unit=km"
 // Generate options popover
 let currentPopover = null;
 
@@ -64,6 +64,8 @@ customElements.define('options-popover', class ModalContent extends HTMLElement 
 });
 // Initialize and add the map
 var map, infoWindow;
+var currentLat;
+var currentLong;
 function initMap() {
     map = new google.maps.Map(document.getElementById('content'), {
         center: { lat: -32.000, lng: 115.800 },
@@ -78,6 +80,8 @@ function initMap() {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
+            currentLat = pos.lat
+            currentLong = pos.lng
             console.log(position.coords.latitude);
             console.log(position.coords.longitude);
             infoWindow.setPosition(pos);
@@ -94,10 +98,8 @@ function initMap() {
     setMarkers(map);
 }
 
-for (let i = 1; i <= 13; i++) {
+//for (let i = 1; i <= 13; i++) {
     
-    var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&locale=*&countryCode=AU&size=200&page=" + i //&page=1
-
     //call ajax with queryURL
     //display data
     $.ajax({
@@ -107,31 +109,38 @@ for (let i = 1; i <= 13; i++) {
   
         console.log(response);
 
-        //location = response._embedded.events[i]._embedded.venues[0].location
+        var eventEl = response._embedded.event
+        for (let i = 0; i < eventEl.length; i++) {
+            const e = eventEl[i];
+        
+            var eventlocationLong = response._embedded.events[e]._embedded.venues[0].location.longitude
+            var eventlocationLat = response._embedded.events[e]._embedded.venues[0].location.latitude
+
+            console.log(eventlocationLat + eventlocationLong)
+        }
+        
         
         eventList(response);
     })
-}
+//}
 
 //create button list function
 function eventList(response) {
-    
-    //for (let i = 0; i < event.length; i++) {
-    //    const element = event[i];
 
-        var eventTittle = response._embedded.events[0].name
+
+        var eventTitle = response._embedded.events[0].name
             
         var slidingItem = $("<ion-item-sliding>")
     
         var eventListBtn = $("<ion-item>")
         eventListBtn.prop("button", true)
             
-        var tittleId = $("<ion-label>").text(eventTittle)
+        var titleId = $("<ion-label>").text(eventTitle)
     
         var itemOptions = $("<ion-item-options>")
     
         slidingItem.append(eventListBtn)
-        eventListBtn.append(tittleId)
+        eventListBtn.append(titleId)
         slidingItem.append(itemOptions)
             
     
