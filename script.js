@@ -2,6 +2,7 @@ var apikey = 'RFICjUjeerutWCLOjlYKQaGawIvVOZ6R';
 var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&latlng=-" + currentLat + currentLong + "&radius=100&unit=km"
 // Generate options popover
 let currentPopover = null;
+console.log([4])
 
 const buttons = document.querySelectorAll('ion-button');
 for (var i = 0; i < buttons.length; i++) {
@@ -166,63 +167,74 @@ $.ajax({
         } 
         eventMarkers.push(marker);
 
-        //event information
-        var imageUrl = events[i].images[0].url;
-        var dates = events[i].dates.start.localDate;
-        var time = events[i].dates.start.localTime;
-        var category = events[i].classifications[0].segment.name;
-        var ticketStatus = events[i].dates.status.code;
-
         //creating an event list
         var slidingItem = $("<ion-item-sliding>");
-        var eventListBtn = $("<ion-item>");
+        var eventListBtn = $("<ion-item>").attr("id", "event" + [i]);
         eventListBtn.prop("button", true);
-        eventListBtn.attr("id", eventName);
+        eventListBtn.val(events[i]);
 
         var titleId = $("<ion-label>").text(eventName);
         var itemOptions = $("<ion-item-options>");
 
-        slidingItem.append(eventListBtn)
-        eventListBtn.append(titleId)
-        slidingItem.append(itemOptions)
+        slidingItem.append(eventListBtn);
+        eventListBtn.append(titleId);
+        slidingItem.append(itemOptions);
 
-        $(".resultsList").append(slidingItem)
+        $(".resultsList").append(slidingItem);
 
-        var containerIn = $("<ion-card>")
-        var titleIn = $("<ion-title>").text(eventName);
-        var venueIn = $("<ion-text>").text(eventVenue);
-        var categoryIn = $("<ion-text>").text(category);
-        var datesIn = $("<ion-text>").text(dates);
-        var statusIn = $("<ion-text>").text(ticketStatus);
+        $("#event" + [i]).on("click", function() {
 
-        var imgIn = $("<ion-img>").attr("src", imageUrl);
-        imgIn.width("200px");
+            $("#more-information").empty();
 
-        containerIn.append(titleIn)
-        titleIn.append(venueIn);
-        venueIn.append(categoryIn);
-        categoryIn.append(datesIn);
-        datesIn.append(statusIn);
-        statusIn.append(imgIn);
+            //grabs value
+            var indexVal = $(this).val();
+    
+            //event information
+            var eventName = indexVal.name;
+            var eventVenue = indexVal._embedded.venues[0].name;
+            var eventImageUrl = indexVal.images[0].url;
+            var eventDates = indexVal.dates.start.localDate;
+            //var eventTime = indexVal.dates.start.localTime;
+            var eventCategory = indexVal.classifications[0].segment.name;
+            var eventTicketStatus = indexVal.dates.status.code;
+            
+            //creating more information container
+            var containerIn = $("<ion-card>");
+            var titleIn = $("<ion-title>").text(eventName);
+            var venueIn = $("<ion-text>").text(eventVenue);
+            var categoryIn = $("<ion-text>").text(eventCategory);
+            var datesIn = $("<ion-text>").text(eventDates);
+            var statusIn = $("<ion-text>").text(eventTicketStatus);
 
-        $("#more-information").append(containerIn)
+            //event image
+            var imgIn = $("<ion-img>").attr("src", eventImageUrl);
+            imgIn.width("200px");
 
+            containerIn.append(titleIn)
+            titleIn.append(venueIn);
+            venueIn.append(categoryIn);
+            categoryIn.append(datesIn);
+            datesIn.append(statusIn);
+            statusIn.append(imgIn);
 
+            $("#more-information").append(containerIn);
+            
+        })
         
         //console logging information, to check if working
-        console.log(eventName);
-        console.log(eventVenue);
-        console.log(eventLng);
-        console.log(eventLat);
-        console.log(JSON.stringify(imageUrl));
-        console.log(JSON.stringify(dates));
-        console.log(time);
-        console.log(JSON.stringify(category));
-        console.log(ticketStatus);
-        console.log("_______________________________________");
+        //console.log(eventName);
+        //console.log(eventVenue);
+        //console.log(eventLng);
+        //console.log(eventLat);
+        //console.log(eventImageUrl);
+        //console.log(eventDates);
+        //console.log(eventTime);
+        //console.log(eventCategory);
+        //console.log(eventTicketStatus);
+        //console.log("_______________________________________");
 
     }
     setMarkers(map);
- 
+
 
 })
