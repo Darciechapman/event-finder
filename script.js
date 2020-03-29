@@ -103,6 +103,8 @@ function initMap() {
 $('#searchbar').keypress(function(){
     var keycode = (event.keyCode ? event.keyCode : event.which);
     if (keycode == '13'){
+        initMap();
+        $(".resultsList").empty();
 var eventQuery = $("#searchbar").val();
 var URLQuery = "&classificationName=" + eventQuery;
 // Function to place event location markers on map
