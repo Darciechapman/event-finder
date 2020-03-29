@@ -1,5 +1,5 @@
 var apikey = 'RFICjUjeerutWCLOjlYKQaGawIvVOZ6R';
-var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&latlng=-" + currentLat + currentLong + "&radius=100&unit=km"
+var userPos = []
 // Generate options popover
 let currentPopover = null;
 
@@ -88,6 +88,7 @@ function initMap() {
             infoWindow.setContent('You are here');
             infoWindow.open(map);
             map.setCenter(pos);
+            userPos.push(pos)
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -95,6 +96,7 @@ function initMap() {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
+
     setMarkers(map);
 }
     
@@ -139,7 +141,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 
 // Ticketmaster api url
-var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&locale=*&countryCode=AU&stateCode=WA&size=100"
+var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&locale=*&countryCode=AU&stateCode=WA&size=20&latlng=-" + userPos.lat + userPos.lng + "&radius=10&unit=km"
 // Array to hold event coordinates
 var eventMarkers = [];
 $.ajax({
@@ -153,7 +155,7 @@ $.ajax({
         var eventVenue = events[i]._embedded.venues[0].name;
         var eventLng = events[i]._embedded.venues[0].location.longitude;
         var eventLat = events[i]._embedded.venues[0].location.latitude;
-
+        var eventLink = events[i].url;
         if (eventLng === undefined || eventLat === undefined) {
             return;
         }
@@ -178,7 +180,7 @@ $.ajax({
         var eventListBtn = $("<ion-item>");
         eventListBtn.prop("button", true);
         eventListBtn.attr("id", eventName);
-
+        eventListBtn.attr("href", eventLink);
         var titleId = $("<ion-label>").text(eventName);
         var itemOptions = $("<ion-item-options>");
 
