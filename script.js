@@ -188,26 +188,29 @@ $.ajax({
             //var eventTime = indexVal.dates.start.localTime;
             var eventCategory = indexVal.classifications[0].segment.name;
             var eventTicketStatus = indexVal.dates.status.code;
+            var eventURL = indexVal.url;
             //var eventLink = events[i].url;
             
             //creating more information container
             var containerIn = $("<ion-card>");
-            var titleIn = $("<ion-title>").text(eventName);
-            var venueIn = $("<ion-text>").text(eventVenue);
-            var categoryIn = $("<ion-text>").text(eventCategory);
-            var datesIn = $("<ion-text>").text(eventDates);
-            var statusIn = $("<ion-text>").text(eventTicketStatus);
-
+            var titleIn = $("<ion-card-title>").text(eventName);
+            var venueIn = $("<ion-card-content>").text("Venue: " + eventVenue);
+            var categoryIn = $("<ion-card-content>").text("Category: " + eventCategory);
+            var datesIn = $("<ion-card-content>").text("Date: " + eventDates);
+            var statusIn = $("<ion-card-content>").text("Status: " + eventTicketStatus);
+            var tickets = $("<ion-button>").attr("href", eventURL).text("Purchase Tickets");
             //event image
             var imgIn = $("<ion-img>").attr("src", eventImageUrl);
             imgIn.width("200px");
 
             containerIn.append(titleIn)
-            titleIn.append(venueIn);
-            venueIn.append(categoryIn);
-            categoryIn.append(datesIn);
-            datesIn.append(statusIn);
-            statusIn.append(imgIn);
+            containerIn.append(imgIn);
+            containerIn.append(venueIn);
+            containerIn.append(categoryIn);
+            containerIn.append(datesIn);
+            containerIn.append(statusIn);
+            containerIn.append(tickets);
+            
 
             $("#more-information").append(containerIn);
             
