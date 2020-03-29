@@ -158,7 +158,6 @@ $.ajax({
         //creating an event list
         var slidingItem = $("<ion-item-sliding>");
         var eventListBtn = $("<ion-item>");
-        //.attr("id", "event" + [i]);
         eventListBtn.prop("button", true);
         eventListBtn.attr("id", "event" + [i]);
         eventListBtn.val(events[i]);
