@@ -106,7 +106,7 @@ $('#searchbar').keypress(function(){
         initMap();
         $(".resultsList").empty();
 var eventQuery = $("#searchbar").val();
-var URLQuery = "&classificationName=" + eventQuery;
+var URLQuery = "&classificationName=" + eventQuery + "&keyword=" + eventQuery;
 // Function to place event location markers on map
 function setMarkers(map) {
     for (var i = 0; i < eventMarkers.length; i++) {
@@ -189,18 +189,23 @@ $.ajax({
             var eventCategory = indexVal.classifications[0].segment.name;
             var eventTicketStatus = indexVal.dates.status.code;
             var eventURL = indexVal.url;
+            var eventDescription = indexVal.info;
+             if (eventDescription === undefined){
+                 eventDescription = "No details available";
+             }
             //var eventLink = events[i].url;
             
             //creating more information container
             var containerIn = $("<ion-card>");
             var titleIn = $("<ion-card-title>").text(eventName);
-            var venueIn = $("<ion-card-content>").text("Venue: " + eventVenue);
-            var categoryIn = $("<ion-card-content>").text("Category: " + eventCategory);
-            var datesIn = $("<ion-card-content>").text("Date: " + eventDates);
-            var statusIn = $("<ion-card-content>").text("Status: " + eventTicketStatus);
+            var venueIn = $("<ion-card-subtitle>").text("Venue: " + eventVenue);
+            var categoryIn = $("<ion-card-subtitle>").text("Category: " + eventCategory);
+            var datesIn = $("<ion-card-subtitle>").text("Date: " + eventDates);
+            var statusIn = $("<ion-card-subtitle>").text("Status: " + eventTicketStatus);
             var tickets = $("<ion-button>").attr("href", eventURL).text("Purchase Tickets");
+            var description = $("<ion-card-content>").text(eventDescription);
             //event image
-            var imgIn = $("<ion-img>").attr("src", eventImageUrl);
+            var imgIn = $("<img>").attr("src", eventImageUrl);
             imgIn.width("200px");
 
             containerIn.append(titleIn)
@@ -209,6 +214,7 @@ $.ajax({
             containerIn.append(categoryIn);
             containerIn.append(datesIn);
             containerIn.append(statusIn);
+            containerIn.append(description);
             containerIn.append(tickets);
             
 
@@ -230,7 +236,8 @@ $.ajax({
 
     }
     setMarkers(map);
-
+    
+    $("#searchbar").val("");
 
 });
     }
