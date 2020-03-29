@@ -96,29 +96,14 @@ function initMap() {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
-
-    setMarkers(map);
+    console.log(userPos);
 }
-    
-    //call ajax with queryURL
-    //display data
-    $.ajax({
-        url: queryURL,
-        method: "GET", 
-    }).then(function(response) {
-  
-        console.log(response);
 
-        var eventEl = response._embedded.event
-        
-            //var eventlocationLong = response._embedded.events[e]._embedded.venues[0].location.longitude
-            var eventlocationLat = response._embedded.events[0]._embedded.venues[0].location.latitude
-
-            console.log(eventlocationLat)// + eventlocationLong)
-        
-    })
-        
-console.log(eventMarkers);
+$('#searchbar').keypress(function(){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if (keycode == '13'){
+var eventQuery = $("#searchbar").val();
+var URLQuery = "&classificationName=" + eventQuery;
 // Function to place event location markers on map
 function setMarkers(map) {
     for (var i = 0; i < eventMarkers.length; i++) {
@@ -139,9 +124,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.open(map);
 }
 
-
 // Ticketmaster api url
-var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&locale=*&countryCode=AU&stateCode=WA&size=20&latlng=-" + userPos.lat + userPos.lng + "&radius=10&unit=km"
+var queryURL = "https://app.ticketmaster.com/discovery/v2/events?apikey=qLlPf15a4A5NkJubrNvhwL0EJsCeb40H&locale=*&countryCode=AU&stateCode=WA" + URLQuery + "&size=20&latlng=-" + userPos.lat + userPos.lng + "&radius=10&unit=km"
+console.log(queryURL);
 // Array to hold event coordinates
 var eventMarkers = [];
 $.ajax({
@@ -165,7 +150,7 @@ $.ajax({
             lng: eventLng,
             title: eventName,
             venue: eventVenue
-        } 
+        }
         eventMarkers.push(marker);
 
         //event information
@@ -210,7 +195,7 @@ $.ajax({
         $("#more-information").append(containerIn)
 
 
-        
+
         //console logging information, to check if working
         console.log(eventName);
         console.log(eventVenue);
@@ -225,6 +210,8 @@ $.ajax({
 
     }
     setMarkers(map);
- 
 
-})
+
+});
+    }
+});
