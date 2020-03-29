@@ -97,8 +97,6 @@ function initMap() {
     }
     setMarkers(map);
 }
-
-//for (let i = 1; i <= 13; i++) {
     
     //call ajax with queryURL
     //display data
@@ -110,45 +108,13 @@ function initMap() {
         console.log(response);
 
         var eventEl = response._embedded.event
-        for (let i = 0; i < eventEl.length; i++) {
-            const e = eventEl[i];
         
-            var eventlocationLong = response._embedded.events[e]._embedded.venues[0].location.longitude
-            var eventlocationLat = response._embedded.events[e]._embedded.venues[0].location.latitude
+            //var eventlocationLong = response._embedded.events[e]._embedded.venues[0].location.longitude
+            var eventlocationLat = response._embedded.events[0]._embedded.venues[0].location.latitude
 
-            console.log(eventlocationLat + eventlocationLong)
-        }
+            console.log(eventlocationLat)// + eventlocationLong)
         
-        
-        eventList(response);
     })
-//}
-
-//create button list function
-function eventList(response) {
-
-
-        var eventTitle = response._embedded.events[0].name
-            
-        var slidingItem = $("<ion-item-sliding>")
-    
-        var eventListBtn = $("<ion-item>")
-        eventListBtn.prop("button", true)
-            
-        var titleId = $("<ion-label>").text(eventTitle)
-    
-        var itemOptions = $("<ion-item-options>")
-    
-        slidingItem.append(eventListBtn)
-        eventListBtn.append(titleId)
-        slidingItem.append(itemOptions)
-            
-    
-        $(".resultsList").append(slidingItem)
-    
-    //}
-        
-    }
         
 console.log(eventMarkers);
 // Function to place event location markers on map
@@ -196,7 +162,7 @@ $.ajax({
             lng: eventLng,
             title: eventName,
             venue: eventVenue
-        }    
+        } 
         eventMarkers.push(marker);
         var slidingItem = $("<ion-item-sliding>");
         var eventListBtn = $("<ion-item>");
@@ -216,7 +182,6 @@ $.ajax({
         console.log("_______________________________________");
     }
     setMarkers(map);
- 
 
-
+    
 })
