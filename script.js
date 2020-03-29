@@ -2,6 +2,7 @@ var apikey = 'RFICjUjeerutWCLOjlYKQaGawIvVOZ6R';
 var userPos = []
 // Generate options popover
 let currentPopover = null;
+console.log([4])
 
 const buttons = document.querySelectorAll('ion-button');
 for (var i = 0; i < buttons.length; i++) {
@@ -140,7 +141,6 @@ $.ajax({
         var eventVenue = events[i]._embedded.venues[0].name;
         var eventLng = events[i]._embedded.venues[0].location.longitude;
         var eventLat = events[i]._embedded.venues[0].location.latitude;
-        var eventLink = events[i].url;
         if (eventLng === undefined || eventLat === undefined) {
             return;
         }
@@ -153,60 +153,76 @@ $.ajax({
         }
         eventMarkers.push(marker);
 
-        //event information
-        var imageUrl = events[i].images[0].url;
-        var dates = events[i].dates.start.localDate;
-        var time = events[i].dates.start.localTime;
-        var category = events[i].classifications[0].segment.name;
-        var ticketStatus = events[i].dates.status.code;
-
         //creating an event list
         var slidingItem = $("<ion-item-sliding>");
         var eventListBtn = $("<ion-item>");
+        //.attr("id", "event" + [i]);
         eventListBtn.prop("button", true);
-        eventListBtn.attr("id", eventName);
-        eventListBtn.attr("href", eventLink);
+        eventListBtn.attr("id", "event" + [i]);
+        eventListBtn.val(events[i]);
+
         var titleId = $("<ion-label>").text(eventName);
         var itemOptions = $("<ion-item-options>");
 
-        slidingItem.append(eventListBtn)
-        eventListBtn.append(titleId)
-        slidingItem.append(itemOptions)
+        slidingItem.append(eventListBtn);
+        eventListBtn.append(titleId);
+        slidingItem.append(itemOptions);
 
-        $(".resultsList").append(slidingItem)
+        $(".resultsList").append(slidingItem);
 
-        var containerIn = $("<ion-card>")
-        var titleIn = $("<ion-title>").text(eventName);
-        var venueIn = $("<ion-text>").text(eventVenue);
-        var categoryIn = $("<ion-text>").text(category);
-        var datesIn = $("<ion-text>").text(dates);
-        var statusIn = $("<ion-text>").text(ticketStatus);
+        $("#event" + [i]).on("click", function() {
 
-        var imgIn = $("<ion-img>").attr("src", imageUrl);
-        imgIn.width("200px");
+            console.log("click")
 
-        containerIn.append(titleIn)
-        titleIn.append(venueIn);
-        venueIn.append(categoryIn);
-        categoryIn.append(datesIn);
-        datesIn.append(statusIn);
-        statusIn.append(imgIn);
+            $("#more-information").empty();
 
-        $("#more-information").append(containerIn)
+            //grabs value
+            var indexVal = $(this).val();
+    
+            //event information
+            var eventName = indexVal.name;
+            var eventVenue = indexVal._embedded.venues[0].name;
+            var eventImageUrl = indexVal.images[0].url;
+            var eventDates = indexVal.dates.start.localDate;
+            //var eventTime = indexVal.dates.start.localTime;
+            var eventCategory = indexVal.classifications[0].segment.name;
+            var eventTicketStatus = indexVal.dates.status.code;
+            //var eventLink = events[i].url;
+            
+            //creating more information container
+            var containerIn = $("<ion-card>");
+            var titleIn = $("<ion-title>").text(eventName);
+            var venueIn = $("<ion-text>").text(eventVenue);
+            var categoryIn = $("<ion-text>").text(eventCategory);
+            var datesIn = $("<ion-text>").text(eventDates);
+            var statusIn = $("<ion-text>").text(eventTicketStatus);
 
+            //event image
+            var imgIn = $("<ion-img>").attr("src", eventImageUrl);
+            imgIn.width("200px");
 
+            containerIn.append(titleIn)
+            titleIn.append(venueIn);
+            venueIn.append(categoryIn);
+            categoryIn.append(datesIn);
+            datesIn.append(statusIn);
+            statusIn.append(imgIn);
 
+            $("#more-information").append(containerIn);
+            
+        })
+        
         //console logging information, to check if working
-        console.log(eventName);
-        console.log(eventVenue);
-        console.log(eventLng);
-        console.log(eventLat);
-        console.log(JSON.stringify(imageUrl));
-        console.log(JSON.stringify(dates));
-        console.log(time);
-        console.log(JSON.stringify(category));
-        console.log(ticketStatus);
-        console.log("_______________________________________");
+        //console.log(eventName);
+        //console.log(eventVenue);
+        //console.log(eventLng);
+        //console.log(eventLat);
+        //console.log(eventImageUrl);
+        //console.log(eventDates);
+        //console.log(eventTime);
+        //console.log(eventCategory);
+        //console.log(eventTicketStatus);
+        //console.log("_______________________________________");
 
     }
     setMarkers(map);
