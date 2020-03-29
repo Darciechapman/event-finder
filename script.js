@@ -166,22 +166,29 @@ $.ajax({
         } 
         eventMarkers.push(marker);
 
+        //event information
         var imageUrl = events[i].images[0].url;
         var dates = events[i].dates.start.localDate;
         var time = events[i].dates.start.localTime;
         var category = events[i].classifications[0].segment.name;
+        var ticketStatus = events[i].dates.status.code;
 
+        //creating an event list
         var slidingItem = $("<ion-item-sliding>");
         var eventListBtn = $("<ion-item>");
         eventListBtn.prop("button", true);
-        eventListBtn.attr("id", eventName)   
+        eventListBtn.attr("id", eventName);
+
         var titleId = $("<ion-label>").text(eventName);
         var itemOptions = $("<ion-item-options>");
+
         slidingItem.append(eventListBtn)
         eventListBtn.append(titleId)
         slidingItem.append(itemOptions)
+
         $(".resultsList").append(slidingItem)
         
+        //console logging information, to check if working
         console.log(eventName);
         console.log(eventVenue);
         console.log(eventLng);
@@ -190,6 +197,7 @@ $.ajax({
         console.log(JSON.stringify(dates));
         console.log(time);
         console.log(JSON.stringify(category));
+        console.log(ticketStatus);
         console.log("_______________________________________");
 
     }
