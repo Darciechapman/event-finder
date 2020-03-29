@@ -153,6 +153,7 @@ $.ajax({
         var eventVenue = events[i]._embedded.venues[0].name;
         var eventLng = events[i]._embedded.venues[0].location.longitude;
         var eventLat = events[i]._embedded.venues[0].location.latitude;
+
         if (eventLng === undefined || eventLat === undefined) {
             return;
         }
@@ -164,24 +165,35 @@ $.ajax({
             venue: eventVenue
         } 
         eventMarkers.push(marker);
+
+        var imageUrl = events[i].images[0].url;
+        var dates = events[i].dates.start.localDate;
+        var time = events[i].dates.start.localTime;
+        var category = events[i].classifications[0].segment.name;
+
         var slidingItem = $("<ion-item-sliding>");
         var eventListBtn = $("<ion-item>");
-        eventListBtn.prop("button", true);   
-        var tittleId = $("<ion-label>").text(eventName);
+        eventListBtn.prop("button", true);
+        eventListBtn.attr("id", eventName)   
+        var titleId = $("<ion-label>").text(eventName);
         var itemOptions = $("<ion-item-options>");
         slidingItem.append(eventListBtn)
-        eventListBtn.append(tittleId)
+        eventListBtn.append(titleId)
         slidingItem.append(itemOptions)
         $(".resultsList").append(slidingItem)
-        
         
         console.log(eventName);
         console.log(eventVenue);
         console.log(eventLng);
         console.log(eventLat);
+        console.log(JSON.stringify(imageUrl));
+        console.log(JSON.stringify(dates));
+        console.log(time);
+        console.log(JSON.stringify(category));
         console.log("_______________________________________");
+
     }
     setMarkers(map);
+ 
 
-    
 })
