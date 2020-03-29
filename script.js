@@ -187,6 +187,27 @@ $.ajax({
         slidingItem.append(itemOptions)
 
         $(".resultsList").append(slidingItem)
+
+        var containerIn = $("<ion-card>")
+        var titleIn = $("<ion-title>").text(eventName);
+        var venueIn = $("<ion-text>").text(eventVenue);
+        var categoryIn = $("<ion-text>").text(category);
+        var datesIn = $("<ion-text>").text(dates);
+        var statusIn = $("<ion-text>").text(ticketStatus);
+
+        var imgIn = $("<ion-img>").attr("src", imageUrl);
+        imgIn.width("200px");
+
+        containerIn.append(titleIn)
+        titleIn.append(venueIn);
+        venueIn.append(categoryIn);
+        categoryIn.append(datesIn);
+        datesIn.append(statusIn);
+        statusIn.append(imgIn);
+
+        $("#more-information").append(containerIn)
+
+
         
         //console logging information, to check if working
         console.log(eventName);
