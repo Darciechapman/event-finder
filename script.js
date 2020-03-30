@@ -179,6 +179,7 @@ $.ajax({
 
             //grabs value
             var indexVal = $(this).val();
+            console.log(indexVal)
     
             //event information
             var eventName = indexVal.name;
