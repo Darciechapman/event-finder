@@ -11,4 +11,44 @@
     flex-direction: column;
     overflow: scroll;
 }
+.information {
+    padding: 20px;
+    text-align: center;
+}
+.info-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+    padding: 15px;
+}
+.clear {
+    margin-right: auto;
+    margin-left: auto;
+}
+.info-description {
+    margin-right: auto;
+    margin-left: auto;
+}
+@media (max-width: 690px) {
+    .info-image {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 15px;
+        border-radius: 5px;
+    }
+    .information {
+        padding: 20px;
+        text-align: center;
+    }
+    .info-button {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .clear {
+        margin-left: auto;
+        margin-right: auto;
+    }
+  }
 

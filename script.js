@@ -197,17 +197,18 @@ $.ajax({
             //var eventLink = events[i].url;
             
             //creating more information container
-            var containerIn = $("<ion-card>");
+            var containerIn = $("<ion-card>").addClass("information");
             var titleIn = $("<ion-card-title>").text(eventName);
-            var venueIn = $("<ion-card-subtitle>").text("Venue: " + eventVenue);
-            var categoryIn = $("<ion-card-subtitle>").text("Category: " + eventCategory);
-            var datesIn = $("<ion-card-subtitle>").text("Date: " + eventDates);
-            var statusIn = $("<ion-card-subtitle>").text("Status: " + eventTicketStatus);
-            var tickets = $("<ion-button>").attr("href", eventURL).text("Purchase Tickets");
-            var description = $("<ion-card-content>").text(eventDescription);
+            var venueIn = $("<ion-card-subtitle>").text("Venue: " + eventVenue).addClass("clear").addClass("clear-top");
+            var categoryIn = $("<ion-card-subtitle>").text("Category: " + eventCategory).addClass("clear");
+            var datesIn = $("<ion-card-subtitle>").text("Date: " + eventDates).addClass("clear");
+            var statusIn = $("<ion-card-subtitle>").text("Status: " + eventTicketStatus).addClass("clear").addClass("clear-bottom");
+            var tickets = $("<ion-button>").attr("href", eventURL).text("Purchase Tickets").addClass("info-button");
+            var description = $("<ion-card-content>").text(eventDescription).addClass("info-description");
             //event image
             var imgIn = $("<img>").attr("src", eventImageUrl);
-            imgIn.width("200px");
+            imgIn.width("250px");
+            imgIn.addClass("info-image");
 
             containerIn.append(titleIn)
             containerIn.append(imgIn);
